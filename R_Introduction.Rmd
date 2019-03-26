@@ -1,0 +1,178 @@
+---
+title: "R Programming Introduction to Workshop Participants"
+author: "Pramod Verma, Data For Excellence (DFE), GPE, PSA International"
+date: "27 March 2019"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+## <span style="color:blue">**Use of this document**</span> 
+
+This file is created for the sole use of PSA Data Analytics Technical Workshop participants for demonstration and learning about the R programming language. All rights reserved.  
+
+## <span style="color:blue">**Scripting language used**</span> 
+
+This document is created using R Markdown, a scripting language available as open source from R Foundation. 
+
+Loading all the required packages
+```{r message=FALSE, warning=FALSE}
+#install.packages("readxl",repos = "http://cran.us.r-project.org")
+library(readxl)
+
+#install.packages("ggplot2",repos = "http://cran.us.r-project.org")
+library(ggplot2)
+
+#install.packages("dplyr",repos = "http://cran.us.r-project.org")
+library(dplyr)
+
+```
+
+May need to load more libraries/packages depending on local computer/server
+       
+
+## <span style="color:blue">**Loading the file into R data-frame**</span> 
+
+```{r }
+#Reading the csv file
+port = read.csv('D:/Data Analytics Workshop/Data Analytics Technical Workshop Singapore/Data/port.csv')
+
+#Reading the excel file
+#port_excel = read_excel('D:/Data Analytics Workshop/Data Analytics Technical Workshop Singapore/Data/port.xlsx')
+
+```
+      
+
+## <span style="color:blue">**Analysing the dataset**</span> 
+
+```{r }
+#Looding at the dimension of the dataset (number of rows and columns)
+dim(port)
+
+#Looding at the class of the dataset
+class(port)
+
+#Looding at the names of the column of the dataset
+names(port)
+
+
+#Looding at the first few rows
+head(port)
+
+#Looking at all the columns and their types
+str(port)
+
+#Looding at the summary of the entire dataset
+summary(port)
+
+```
+     
+## <span style="color:blue">**Creating Variables in R**</span> 
+
+```{r }
+#Simple Variables
+x = 5
+y = 'Singapore Terminal'
+
+x
+y
+
+# List
+
+a = c(2,3,4,5,8,9)
+b = c('Singapore', 'Korea', 'India')
+c = rnorm(20)
+
+
+a
+b
+c
+```
+    
+## <span style="color:blue">**Basic Data Preparation Activities in R **</span> 
+
+### <span style="color:green">**Selecting Variables **</span> 
+
+```{r }
+# Take the selected columns in new dataset
+newdata = select(port, CNTR_N, COMMODITY, CARGO_OWNER)
+head(newdata)
+
+# keep the container number and all variables between logistics partner and cargo owner
+newdata = select(port, CNTR_N, LOGISTICS_PARTNER:CARGO_OWNER)
+head(newdata)
+
+# keep the container number and all variables except reefer temperature and batch id
+newdata = select(port, -BATCH_ID, -RF_TEMP)
+head(newdata)
+
+
+```
+  
+### <span style="color:green">**Selecting Observations **</span> 
+
+```{r }
+# filter for the selected record in the dataset
+newdata = filter(port, CNTR_N=='TEXU 1046448')
+head(newdata)
+
+newdata = filter(port, CARGO_OWNER=='Airbus')
+head(newdata)
+
+# Multiple type of operators can be used to filter records
+newdata = filter(port, is.na(RF_TEMP))
+head(newdata)
+
+newdata = filter(port, WT_Q > 20000)
+head(newdata)
+
+```
+  
+### <span style="color:green">**Creating/Recoding variables **</span> 
+
+```{r }
+# changes the weight to ton
+newdata = mutate(port, WT_Q = WT_Q/1000)
+head(newdata)
+
+# create a new variable to store weight in ton
+newdata = mutate(port, WT_Q_TON = WT_Q/1000)
+head(newdata)
+
+# create a new flag to indicate heavy containers
+newdata = mutate(port, HEAVY_FLAG = ifelse(WT_Q > 20000, 
+                                     "Heavy", 
+                                     "Not Heavy"))
+head(newdata)
+
+```
+  
+### <span style="color:green">**Summarizing Data **</span> 
+
+```{r }
+# Calculate the mean length and weight of all the containers
+newdata = summarise(port, MEAN_LENGTH = mean(LENGTH_Q, na.rm=TRUE), 
+                     MEAN_WEIGHT = mean(WT_Q, na.rm=TRUE))
+head(newdata)
+
+
+# Calculate the mean length and weight of all the containers by commodity
+newdata = group_by(port, COMMODITY)
+newdata = summarise(newdata, MEAN_LENGTH = mean(LENGTH_Q, na.rm=TRUE), 
+                     MEAN_WEIGHT = mean(WT_Q, na.rm=TRUE))
+newdata
+
+```
+    
+### <span style="color:green">**Missing Data **</span> 
+
+```{r }
+# what is the proportion of missing data for each variable
+Percent_Miss <- colSums(is.na(port))/nrow(port)
+as.data.frame(Percent_Miss)
+
+```
+ 
+
+## End of the Script

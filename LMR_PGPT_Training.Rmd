@@ -1,0 +1,217 @@
+---
+title: "LMR_PGPT"
+author: "Pramod Verma"
+date: "03 May 2018"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+Loading all the required packages
+
+```{r message=FALSE, warning=FALSE}
+
+#install.packages(c("ggplot2", "reshape2","lattice", "corrplot"))
+library(ggplot2) ## Grammar of graphics
+#library(reshape2) ## Reshaping data frames
+#library(lattice) ## More graphics
+library(corrplot) ## For plotting the corelations
+
+```
+
+## Reading the file from the computer, change the path accordingly
+## GDPE is a transformed variable: GDP + Export
+
+```{r }
+
+file ="D:/Projects/Global Container Throughput Index/Data/Final_Pred.csv"
+ModelData = read.csv(
+  file = file, 
+  header = TRUE,
+  colClasses = c("factor", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric"))
+
+# To remove the decimal places from the year values
+ModelData$Period <- as.factor(as.integer(as.character(ModelData$Period)))
+
+# End of the file reading into the memory
+```
+## Check the dataset if everything is correct
+
+```{r }
+
+# Checking the structure of the input data
+str(ModelData)
+
+# Checking the first five rows
+head(ModelData, 5)
+
+# Summary of the input data
+summary(ModelData)
+
+# Checking the corelation
+m <- cor(na.omit(ModelData[,-1]))
+corrplot(m, method = "number", type="upper")
+
+```
+
+## Defining the training and forecast data
+
+```{r }
+
+# training data
+mt <- ModelData[1:18, -1]
+
+# forecast data of predictors
+mf <- ModelData[19, -1]
+
+# Training Data
+mt
+
+#Forecast Data for independent variables
+mf
+
+```
+
+
+## Building Models with different combination of variables: All Variables
+
+```{r }
+
+# Selecting all the independent variables
+fit_all <- lm(PGPT ~ ., data = mt)
+
+# Keeping fit_all in a common variable for repeatability of code
+fit <- fit_all
+
+#Checking the summary
+summary(fit)
+drop1(fit, test = "F")
+
+#Plotting the residuals
+qplot(.fitted, .stdresid, data = fit, geom = "hex") + geom_smooth(size = 1) +
+xlab("fitted values") + ylab("standardized residuals")
+
+plot(fit)
+
+# Predict the PGPT values using the model
+pred <- predict(fit, newdata=mf, interval="confidence", level=.95)
+pred1<-pred
+
+
+
+```
+
+## Building Models with different combination of variables: Only corelated Variables GDP+Export+Stock+AirLog+CPI
+
+```{r }
+
+# Selecting corelated variables
+fit_cor <- lm(PGPT ~ GDPE+Stock+AirLog+CPI, data = mt)
+
+# Keeping fit_all in a common variable for repeatability of code
+fit <- fit_cor
+
+#Checking the summary
+summary(fit)
+drop1(fit, test = "F")
+
+#Plotting the residuals
+qplot(.fitted, .stdresid, data = fit, geom = "hex") + geom_smooth(size = 1) +
+xlab("fitted values") + ylab("standardized residuals")
+
+plot(fit)
+
+# Predict the PGPT values using the model
+pred <- predict(fit, newdata=mf, interval="confidence", level=.95)
+pred2 <- pred
+
+
+```
+
+
+## Building Models with Export and GDP
+
+```{r }
+
+# Selecting corelated variables
+fit_3 <- lm(PGPT ~ GDPE, data = mt)
+
+# Keeping fit_all in a common variable for repeatability of code
+fit <- fit_3
+
+#Checking the summary
+summary(fit)
+drop1(fit, test = "F")
+
+#Plotting the residuals
+qplot(.fitted, .stdresid, data = fit, geom = "hex") + geom_smooth(size = 1) +
+xlab("fitted values") + ylab("standardized residuals")
+
+plot(fit)
+
+# Predict the PGPT values using the model
+pred <- predict(fit, newdata=mf, interval="confidence", level=.95)
+pred3 <- pred
+
+```
+
+## Building Models with Export
+
+```{r }
+
+# Selecting corelated variables
+fit_4 <- lm(PGPT ~ Export, data = mt)
+
+# Keeping fit_all in a common variable for repeatability of code
+fit <- fit_4
+
+#Checking the summary
+summary(fit)
+drop1(fit, test = "F")
+
+#Plotting the residuals
+qplot(.fitted, .stdresid, data = fit, geom = "hex") + geom_smooth(size = 1) +
+xlab("fitted values") + ylab("standardized residuals")
+
+plot(fit)
+
+# Predict the PGPT values using the model
+pred <- predict(fit, newdata=mf, interval="confidence", level=.95)
+pred4 <- pred
+rbind(pred1, pred2, pred3, pred4)
+
+```
+
+## Building Models with Transformed Variables : GDP + Export and all others
+
+```{r }
+
+# Selecting corelated variables
+fit_5 <- lm(PGPT ~ .- GDP - Export, data = mt)
+
+# Keeping fit_all in a common variable for repeatability of code
+fit <- fit_5
+
+#Checking the summary
+summary(fit)
+drop1(fit, test = "F")
+
+#Plotting the residuals
+qplot(.fitted, .stdresid, data = fit, geom = "hex") + geom_smooth(size = 1) +
+xlab("fitted values") + ylab("standardized residuals")
+
+plot(fit)
+
+# Predict the PGPT values using the model
+pred <- predict(fit, newdata=mf, interval="confidence", level=.95)
+pred5 <- pred
+rbind(pred1, pred2, pred3, pred4, pred5)
+
+
+# Predicting the historical values of throughput based on the model and comparing it with the actual historical data
+
+comp <- cbind(as.data.frame(ModelData$Period)[1:18,], mt$PGPT, as.data.frame(fitted(fit)))
+comp
+```
+
+

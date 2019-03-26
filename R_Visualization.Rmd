@@ -1,0 +1,145 @@
+---
+title: "R Visualization Capabilities Introduction"
+author: "Pramod Verma, Data For Excellence (DFE), GPE, PSA International"
+date: "27 March 2019"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+## <span style="color:blue">**Use of this document**</span> 
+
+This file is created for the sole use of PSA Data Analytics Technical Workshop participants for demonstration and learning about the R visualization capabilities. All rights reserved.
+
+## <span style="color:blue">**Scripting language used**</span> 
+
+This document is created using R Markdown, a scripting language available as open source from R Foundation. 
+
+Loading all the required packages
+```{r message=FALSE, warning=FALSE}
+#install.packages("ggplot2",repos = "http://cran.us.r-project.org")
+library(ggplot2)
+
+
+#install.packages("dplyr",repos = "http://cran.us.r-project.org")
+library(dplyr)
+
+#install.packages("ggcorplot",repos = "http://cran.us.r-project.org") 
+library(ggcorrplot)
+
+```
+
+May need to load more libraries/packages depending on local computer/server
+       
+
+## <span style="color:blue">**Loading the file into R data-frame**</span> 
+
+```{r }
+#Reading the csv file
+port = read.csv('D:/Data Analytics Workshop/Data Analytics Technical Workshop Singapore/Data/port.csv')
+
+
+```
+      
+
+  
+## <span style="color:blue">**Visualization using ggplot library **</span> 
+
+### <span style="color:green">**Scatter Plot **</span> 
+
+```{r }
+
+plot(head(port$DWELL_DAYS,500))
+
+```
+    
+### <span style="color:green">**Plotting of categorical and continouous variable **</span> 
+
+```{r }
+# specify dataset and mapping
+table(port$COMMODITY)
+
+#Display as data frame
+as.data.frame(table(port$COMMODITY))
+
+# Arrange the data frame
+arrange(as.data.frame(table(port$COMMODITY)),desc(Freq))
+
+#plot the dataframe
+df = arrange(as.data.frame(table(port$COMMODITY)),desc(Freq))
+names(df) = c('COMMODITY', 'FREQ')
+g = ggplot(df, aes(x=COMMODITY, y=FREQ))
+g+ geom_col() +coord_flip()
+
+#Another simple way of plotting
+plot(table(port$COMMODITY))
+
+```
+  
+### <span style="color:green">**Visualization of co-relation among variables**</span> 
+
+```{r }
+
+#Plot the corelation
+ggcorrplot(cor(port[,c('DWELL_DAYS', 'WT_Q')]))
+ggcorrplot(cor(port[,c('DWELL_DAYS', 'WT_Q', 'LENGTH_Q')]))
+ggcorrplot(cor(port[,c('DWELL_DAYS', 'WT_Q', 'LENGTH_Q')]),lab=TRUE)
+
+```
+  
+### <span style="color:green">**Looking at the histogram of dwelldays and weight**</span> 
+
+```{r }
+
+#plotting the histogram
+hist(port$DWELL_DAYS, col='green')
+hist(port$WT_Q, col='red')
+
+#plotting the histogram for a cargo owner
+hist(port[port$CARGO_OWNER == 'Renault',]$DWELL_DAYS, col='green')
+hist(port[port$CARGO_OWNER == 'Renault',]$WT_Q, col='red')
+
+```
+  
+### <span style="color:green">**Looking at the boxplot of dwelldays and weight**</span> 
+
+```{r }
+
+#plotting the histogram
+boxplot(port$DWELL_DAYS, col='green')
+boxplot(port$WT_Q, col='red')
+
+#plotting the histogram for a cargo owner
+boxplot(port[port$CARGO_OWNER == 'Dell',]$DWELL_DAYS, col='green')
+boxplot(port[port$CARGO_OWNER == 'Dell',]$WT_Q, col='red')
+
+```
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## <span style="color:red">**End of the Script**</span> 
