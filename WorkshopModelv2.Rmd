@@ -1,11 +1,11 @@
 ---
 title: '**Predictive Model Using Logistic Regression**'
 author: 'Author: Data For Excellence (DFE), GPE, PSA International'
-date: 'Updated on: 25 March 2019'
+date: 'Updated on: 24 September 2019'
 output:
-  html_document: default
-  pdf_document: default
   word_document: default
+  pdf_document: default
+  html_document: default
 --- 
 
 ![](D:/Data Analytics Workshop/Data Analytics Technical Workshop Singapore/Images/Title.png)

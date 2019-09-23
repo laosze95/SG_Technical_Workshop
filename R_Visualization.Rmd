@@ -1,7 +1,7 @@
 ---
 title: "R Visualization Capabilities Introduction"
 author: "Pramod Verma, Data For Excellence (DFE), GPE, PSA International"
-date: "27 March 2019"
+date: "24 September 2019"
 output:
   word_document: default
   pdf_document: default
@@ -18,15 +18,15 @@ This document is created using R Markdown, a scripting language available as ope
 
 Loading all the required packages
 ```{r message=FALSE, warning=FALSE}
-#install.packages("ggplot2",repos = "http://cran.us.r-project.org")
-library(ggplot2)
-
 
 #install.packages("dplyr",repos = "http://cran.us.r-project.org")
 library(dplyr)
 
 #install.packages("ggcorplot",repos = "http://cran.us.r-project.org") 
 library(ggcorrplot)
+
+#install.packages("ggplot2",repos = "http://cran.us.r-project.org") 
+library(ggplot2)
 
 ```
 
@@ -116,30 +116,5 @@ boxplot(port[port$CARGO_OWNER == 'Dell',]$WT_Q, col='red')
 
 ```
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## <span style="color:red">**End of the Script**</span> 

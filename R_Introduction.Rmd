@@ -1,7 +1,7 @@
 ---
 title: "R Programming Introduction to Workshop Participants"
 author: "Pramod Verma, Data For Excellence (DFE), GPE, PSA International"
-date: "27 March 2019"
+date: "24 September 2019"
 output:
   word_document: default
   pdf_document: default
@@ -21,8 +21,6 @@ Loading all the required packages
 #install.packages("readxl",repos = "http://cran.us.r-project.org")
 library(readxl)
 
-#install.packages("ggplot2",repos = "http://cran.us.r-project.org")
-library(ggplot2)
 
 #install.packages("dplyr",repos = "http://cran.us.r-project.org")
 library(dplyr)
