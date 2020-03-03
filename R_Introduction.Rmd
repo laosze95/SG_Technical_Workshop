@@ -1,11 +1,11 @@
 ---
 title: "R Programming Introduction to Workshop Participants"
 author: "Pramod Verma, Data For Excellence (DFE), GPE, PSA International"
-date: "24 September 2019"
+date: "05 March 2020"
 output:
   word_document: default
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ## <span style="color:blue">**Use of this document**</span> 
@@ -18,11 +18,11 @@ This document is created using R Markdown, a scripting language available as ope
 
 Loading all the required packages
 ```{r message=FALSE, warning=FALSE}
-#install.packages("readxl",repos = "http://cran.us.r-project.org")
+install.packages("readxl",repos = "http://cran.us.r-project.org")
 library(readxl)
 
 
-#install.packages("dplyr",repos = "http://cran.us.r-project.org")
+install.packages("dplyr",repos = "http://cran.us.r-project.org")
 library(dplyr)
 
 ```
@@ -34,7 +34,7 @@ May need to load more libraries/packages depending on local computer/server
 
 ```{r }
 #Reading the csv file
-port = read.csv('D:/Data Analytics Workshop/Data Analytics Technical Workshop Singapore/Data/port.csv')
+port = read.csv('D:/Data Analytics/Data Analytics Workshop/Data Analytics Technical Workshop/Version 2/Data/port.csv')
 
 #Reading the excel file
 #port_excel = read_excel('D:/Data Analytics Workshop/Data Analytics Technical Workshop Singapore/Data/port.xlsx')

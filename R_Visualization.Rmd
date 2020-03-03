@@ -1,7 +1,7 @@
 ---
 title: "R Visualization Capabilities Introduction"
 author: "Pramod Verma, Data For Excellence (DFE), GPE, PSA International"
-date: "24 September 2019"
+date: "05 March 2020"
 output:
   word_document: default
   pdf_document: default
@@ -19,13 +19,13 @@ This document is created using R Markdown, a scripting language available as ope
 Loading all the required packages
 ```{r message=FALSE, warning=FALSE}
 
-#install.packages("dplyr",repos = "http://cran.us.r-project.org")
+install.packages("dplyr",repos = "http://cran.us.r-project.org")
 library(dplyr)
 
-#install.packages("ggcorplot",repos = "http://cran.us.r-project.org") 
+install.packages("ggcorrplot",repos = "http://cran.us.r-project.org") 
 library(ggcorrplot)
 
-#install.packages("ggplot2",repos = "http://cran.us.r-project.org") 
+install.packages("ggplot2",repos = "http://cran.us.r-project.org") 
 library(ggplot2)
 
 ```
@@ -37,7 +37,7 @@ May need to load more libraries/packages depending on local computer/server
 
 ```{r }
 #Reading the csv file
-port = read.csv('D:/Data Analytics Workshop/Data Analytics Technical Workshop Singapore/Data/port.csv')
+port = read.csv('D:/Data Analytics/Data Analytics Workshop/Data Analytics Technical Workshop/Version 2/Data/port.csv')
 
 
 ```

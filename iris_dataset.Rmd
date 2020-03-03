@@ -1,7 +1,7 @@
 ---
 title: "IRIS"
 author: "Pramod Verma"
-date: "24 September 2019"
+date: "05 March 2020"
 output:
   word_document: default
   pdf_document: default
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 This is the R Markdown file created for introducing the basic building blocks of R to PSA Data Analytics Technical Participants.
 
 ```{r message=FALSE, warning=FALSE}
-#install.packages("PerformanceAnalytics",repos = "http://cran.us.r-project.org")
+install.packages("PerformanceAnalytics",repos = "http://cran.us.r-project.org")
 library(PerformanceAnalytics)
 ```
 
@@ -43,9 +43,6 @@ plot(x)
 hist(x, col = "red")
 plot(x,y)
 boxplot(x)
-
-source('D:/Data Analytics/R/Scripts/prime.R')
-cp(1000)
 
 ```
 
@@ -135,7 +132,7 @@ getmode <- function(v) {
 
 ```{r }
 avg <- NULL
-for (i in 1:15) {
+for (i in 1:10) {
   set.seed(100 +50*i+i*i)
   result<- kmeans(iris[,c(1,2,3,4)],3)
 plot(iris[c(3,4)], col=result$cluster, pch = 19, main =c(" Clusters based on Petal Length and Width: Iteration ", i)) 

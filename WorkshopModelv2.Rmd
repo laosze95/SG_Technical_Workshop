@@ -1,14 +1,14 @@
 ---
 title: '**Predictive Model Using Logistic Regression**'
 author: 'Author: Data For Excellence (DFE), GPE, PSA International'
-date: 'Updated on: 24 September 2019'
+date: 'Updated on: 05 March 2020'
 output:
   word_document: default
   pdf_document: default
   html_document: default
 --- 
 
-![](D:/Data Analytics Workshop/Data Analytics Technical Workshop Singapore/Images/Title.png)
+![](D:/Data Analytics/Data Analytics Workshop/Data Analytics Technical Workshop/Version 2/Images/Title.png)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -81,7 +81,7 @@ Loading all the required packages
 
 ```{r message=FALSE, warning=FALSE}
 
-#install.packages("InformationValue",repos = "http://cran.us.r-project.org")
+install.packages("InformationValue",repos = "http://cran.us.r-project.org")
 library(InformationValue)
 
 ```
@@ -92,8 +92,8 @@ May need to load more libraries/packages depending on local computer/server
 Loading the file into R data-frame
 
 ```{r }
-inputData <- read.csv("https://github.com/laosze95/Training/raw/master/adult.csv")
-#inputData <- read.csv("D:/adult.csv")
+#inputData <- read.csv("https://github.com/laosze95/Training/raw/master/adult.csv")
+inputData <- read.csv("D:/Data Analytics/Data Analytics Workshop/Data Analytics Technical Workshop/Version 2/Data/adult.csv")
 # From Pramod Verma Github Page, use "https://github.com/laosze95/Training/raw/master/adult.csv"
 # From internet use "http://rstatistics.net/wp-content/uploads/2015/09/adult.csv"
        
